@@ -23,11 +23,11 @@ Home Assistant verbindet sich im Heimnetz direkt mit der IP des NodeMCU über **
 | Licht mittel | `button.utrusta_kueche_licht_mittel` | Sendet die mittlere feste Stufe. |
 | Licht voll | `button.utrusta_kueche_licht_voll` | Sendet die volle feste Stufe. |
 
-Zum Anlernen erst den außen zugänglichen IKEA-Sensorknopf am Empfänger drücken und danach in Home Assistant **Anlernen** betätigen. Der komplette Ablauf mit Prüfung der Leuchte steht in [Inbetriebnahme](inbetriebnahme.md#7-vor-ort-anlernen-und-abnehmen). Home Assistant hat die Tastenbetätigungen registriert. Die physische Leuchtenreaktion auf alle drei Stufen hat der Betreiber separat bestätigt. Die ESPHome-Tasten melden einen Betätigungszeitpunkt und der CC2500 prüft den lokalen Sendeablauf. Der IKEA-Empfänger liefert dem Adapter keinen Lichtzustand zurück.
+Zum Anlernen erst den außen zugänglichen IKEA-Sensorknopf am Empfänger drücken und danach in Home Assistant **Anlernen** betätigen. Die Schritte stehen in [Leuchte anlernen](inbetriebnahme.md#7-leuchte-anlernen). Die ESPHome-Tasten melden einen Betätigungszeitpunkt und der CC2500 prüft den lokalen Sendeablauf. Der IKEA-Empfänger liefert dem Adapter keinen Lichtzustand zurück.
 
-## 4. Eine Taste für Aus, Mittel und Voll wiederherstellen
+## 4. Eine Taste für Aus, Mittel und Voll einrichten
 
-Die Rotation ist als **Home-Assistant-Skript** umgesetzt. Der Dropdown-Helfer speichert den *nächsten Befehl*. Im Home Assistant des Projekts wurden beide Objekte über die Konfigurationsschnittstelle angelegt und anschließend zurückgelesen. Das lässt sich auch manuell über die Oberfläche wiederholen.
+Die Rotation ist als **Home-Assistant-Skript** umgesetzt. Der Dropdown-Helfer speichert den *nächsten Befehl*. Helfer und Skript lassen sich über die Oberfläche einrichten.
 
 1. In **Einstellungen → Geräte & Dienste → Helfer** auf **Helfer erstellen** klicken und **Dropdown** wählen.
 2. Den Helfer **UTRUSTA nächster Lichtbefehl** nennen. Die Optionen in genau dieser Reihenfolge eintragen: **Aus**, **Mittel**, **Voll**. In der Detailansicht die Entitäts-ID `input_select.utrusta_nachster_lichtbefehl` prüfen und die Auswahl für den ersten Durchlauf auf **Aus** setzen.
@@ -54,11 +54,9 @@ tap_action:
     entity_id: script.utrusta_licht_weiterschalten
 ```
 
-Die Karte ist eine Vorlage zum manuellen Einbauen. Im Projekt wurde das Skript live eingerichtet und die gespeicherte Konfiguration geprüft. Ein vollständiger Rotationsdurchlauf an der Leuchte wurde noch nicht dokumentiert.
-
 ## 5. Alexa über dasselbe Skript
 
-Beim Abgleich war keine Alexa-Integration sichtbar. Eine Kontoverknüpfung und ein Sprachtest sind für dieses Projekt nicht protokolliert. Mit **Home Assistant Cloud von Nabu Casa** kann Alexa dieselbe Skriptentität aufrufen. Damit verwenden Sprachbefehl und Home-Assistant-Schaltfläche dieselbe Reihenfolge.
+Mit **Home Assistant Cloud von Nabu Casa** kann Alexa dieselbe Skriptentität aufrufen. Damit verwenden Sprachbefehl und Home-Assistant-Schaltfläche dieselbe Reihenfolge.
 
 1. Home Assistant Cloud einrichten und in **Einstellungen → Sprachassistenten** Alexa aktivieren.
 2. Auf dem Reiter für die Freigabe von Entitäten `script.utrusta_licht_weiterschalten` für Alexa freigeben.

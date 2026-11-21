@@ -7,8 +7,6 @@ Home Assistant ── WLAN / verschlüsselte ESPHome-API ── NodeMCU V3
 NodeMCU V3 ── vier SPI-Leitungen ── CC2500 ── IKEA-Funk ── UTRUSTA
 ```
 
-**Abnahme vom 21. November 2026.** ESPHome gebaut und per USB geflasht, CC2500 über SPI erkannt, vier Tasten in Home Assistant sichtbar. Der Betreiber hat die **Kopplung ohne Originalfernbedienung und Aus, Mittel und Voll an der Leuchte** bestätigt. Die Ein-Tasten-Rotation wurde in Home Assistant eingerichtet und die gespeicherte Konfiguration geprüft. Eine Live-Abnahme der Rotation, der Steckdosen und der Reichweite am endgültigen Standort ist nicht protokolliert. Die Alexa-Anbindung ist als Einrichtungsweg beschrieben. Ein Alexa-Test ist nicht protokolliert.
-
 ![Verdrahteter Prototyp](docs/bilder/adapter-verdrahtet.jpg)
 
 ## Nachbauen und verstehen
@@ -17,25 +15,12 @@ NodeMCU V3 ── vier SPI-Leitungen ── CC2500 ── IKEA-Funk ── UTRUS
 |---|---|
 | 1. Teile identifizieren, Kondensatoren verlöten, Spannung messen und SPI verdrahten | [Hardware und Aufbau](docs/hardware.md) |
 | 2. Quellcode, YAML, C++, Register und den Weg vom Build bis zum Flash verstehen | [Firmware und Werkzeugkette](docs/firmware.md) |
-| 3. WLAN, SPI und Funk in der erprobten Reihenfolge in Betrieb nehmen | [Inbetriebnahme und Tests](docs/inbetriebnahme.md) |
+| 3. WLAN, SPI und Funk in der erprobten Reihenfolge in Betrieb nehmen | [Inbetriebnahme](docs/inbetriebnahme.md) |
 | 4. Adapter, Tasten und Ein-Tasten-Rotation in Home Assistant einrichten | [Home Assistant und Alexa](docs/home-assistant.md) |
 
 [Schaltplan als PNG](utrusta-schaltplan.png) · [Editierbarer Schaltplan als SVG](utrusta-schaltplan.svg) · [Lochrasterzeichnung](docs/bilder/kondensatoren-lochraster.png)
 
-**Anschlussbelegung für Artikel 002914.** Mit sichtbarem Chip, Antenne oben und Stiften unten ist **Pin 1 links VCC** und **Pin 6 GND**. **CC2500-Pin 8 geht an NodeMCU D1**, nicht an D8. Frühe Skizzen aus dem Aufbau verwendeten eine andere Modulbelegung. Dieses Repository enthält den korrigierten Plan.
-
-## Projektverlauf
-
-| Phase | Was tatsächlich passiert ist |
-|---|---|
-| Ausgangspunkt | Die originale E1205 zeigte keine LED-Reaktion, und ihre Platine war korrodiert. Die UTRUSTA-Leuchten sollten bleiben, ebenso ihre Steckdosenversorgung. |
-| Funklösung ausgewählt | RFLink mit Arduino Mega und Pegelwandlung war eine untersuchte Option. Gewählt wurde der kleinere WLAN-Aufbau mit ESP8266 und CC2500, weil Home Assistant direkt übers LAN anbinden kann. Das historische NodeMCU-Beispiel war eine Referenz für den Aufbau. Die eigene Senderkennung vermeidet, eine funktionierende Originalfernbedienung zum Auslesen zu brauchen. |
-| Hardware beschafft | Zwei NodeMCUs, zwei CC2500 und Material für den Lochrasteraufbau bestellt. Der Betreiber dokumentierte die gelieferten Platinen per Foto. Der frühere Vergleichs-Pinout wurde nach Fund des Händlerbilds berichtigt. |
-| Erstes Programm | Der Betreiber installierte den Device Builder, flashte die WLAN-Testfirmware und fügte das Gerät in Home Assistant hinzu. Der NodeMCU meldete eine LAN-IP und einen erfolgreichen Start. |
-| Löten und Messen | Der Betreiber lötete die zwei Kondensatoren, zwei Brücken und vier Versorgungsleitungen, prüfte Spannung und Kurzschluss und verdrahtete die SPI-Signale. Die Dokumentation und der Schaltplan lieferten Zuordnung und Messpunkte. |
-| Diagnose | Der SPI-Test meldete zunächst `00/00`. Die zweite Testfirmware zeigte beim Auswählen des Chips einen Timeout. Nach Umstecken von NodeMCU D8 auf **D1** las der Test `80/03`. |
-| Funkfirmware | Der C++-Treiber und die YAML-Tasten wurden entwickelt, mit ESPHome 2026.8.0 kompiliert, per USB geflasht und mit den echten Startlogs geprüft. Der Betreiber lernte die Leuchte an und bestätigte Aus, Mittel und Voll. |
-| Bedienung | In Home Assistant wurden eine Rotationstaste als Skript und ein Helfer für den nächsten Befehl eingerichtet. Alexa über dasselbe Skript ist als späterer Einrichtungsweg beschrieben. |
+**Anschlussbelegung für Artikel 002914.** Mit sichtbarem Chip, Antenne oben und Stiften unten ist **Pin 1 links VCC** und **Pin 6 GND**. **CC2500-Pin 8 geht an NodeMCU D1**. Die Belegung gilt für dieses konkrete Modul.
 
 ## Dateien für die Wiederherstellung
 

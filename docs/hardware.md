@@ -34,13 +34,13 @@ Halte den [CC2500 auf der Bauteilseite](bilder/cc2500-bauteilseite.jpg) mit **si
 | 7 | GDO0 | frei | Kein Kabel. |
 | **8**, ganz rechts | CSn | **`D1` / GPIO5** | Direkt. LOW wählt den CC2500 aus. |
 
-**Korrektur aus dem Aufbau.** Die erste Skizze ging von einer anderen CC2500-Platine aus und ordnete Masse dem Pin 1 und 3,3 V dem Pin 2 zu. Beide Versorgungspunkte und mehrere Signale wurden korrigiert, nachdem das Anschlussbild des Artikels 002914 vorlag. Maßgeblich ist die Tabelle oben. Das TI-Datenblatt zeigt die Kontakte des aufgelöteten Chips. Für die acht Modulstifte ist die Händlerzeichnung maßgeblich. **CC2500-Pin 8 führt zum NodeMCU-Aufdruck D1.** Der Aufdruck D8 am NodeMCU bezeichnet einen anderen GPIO. [Korrigierter Schaltplan](../utrusta-schaltplan.png) · [TI-Datenblatt](https://www.ti.com/lit/ds/symlink/cc2500.pdf)
+Für die acht Modulstifte gilt die obige Belegung. Das TI-Datenblatt beschreibt die Kontakte des aufgelöteten Chips. [Schaltplan](../utrusta-schaltplan.png) · [TI-Datenblatt](https://www.ti.com/lit/ds/symlink/cc2500.pdf)
 
 ## 3. Die Kondensatoren auf Lochraster löten
 
 ![Lochrasterplatine von der Bauteil- und Kupferseite](bilder/kondensatoren-lochraster.png)
 
-1. **USB abziehen.** Die Platine mit der Bauteilseite nach oben hinlegen. Je zwei Löcher im Beinabstand markieren. Die vier Löcher bilden zwei Reihen. Eine Reihe steht für **3,3 V**, die andere für **GND**. Für eine kleine Kondensatorplatine kann man ein Teilstück mit feiner Säge abtrennen. Vorher Platz für Bauteile, Kabel und eine Befestigung einplanen. Nach dem Sägen Kanten entgraten und Kupferreste entfernen. Die tatsächliche Größe des fertig benutzten Teilstücks ist nicht festgehalten.
+1. **USB abziehen.** Die Platine mit der Bauteilseite nach oben hinlegen. Je zwei Löcher im Beinabstand markieren. Die vier Löcher bilden zwei Reihen. Eine Reihe steht für **3,3 V**, die andere für **GND**. Für eine kleine Kondensatorplatine kann man ein Teilstück mit feiner Säge abtrennen. Vorher Platz für Bauteile, Kabel und eine Befestigung einplanen. Nach dem Sägen Kanten entgraten und Kupferreste entfernen.
 2. **Kondensatoren von oben einsetzen.** Jedes Bein bekommt ein eigenes Loch. Der kleine Keramikkondensator kann in beide Richtungen hinein. Beim großen 10-µF-Elko kommt das Bein am aufgedruckten **Minusstreifen** in die Masse-Reihe. Das längere, ungekürzte Bein ist üblicherweise Plus und gehört in die 3,3-V-Reihe. Nach dem Kürzen am Streifen orientieren.
 3. **Vier einzelne Lötstellen setzen.** Die Platine seitlich umdrehen. Auf der Kupferseite das Bein und seinen Kupferring zusammen kurz mit der Spitze erwärmen und etwas Lötzinn zuführen. Das Bein beim Abkühlen ruhig halten. Danach sind beide Kondensatoren befestigt. Alle vier Kupferpunkte sind noch voneinander getrennt.
 4. **Zwei Drahtbrücken anlöten.** Zwei kurze isolierte Drahtstücke an beiden Enden jeweils 2–3 mm abisolieren und dünn verzinnen. Unten je eine Brücke direkt an beide Kondensator-Lötpunkte **derselben Reihe** löten. Ein Ende pro Lötstelle reicht. Wenn ein Draht in einem eigenen Loch sitzt, muss sein Kupferring mit dem benachbarten gewünschten Lötpunkt verbunden werden. Die beiden Reihen dürfen sich nicht berühren.
@@ -62,15 +62,15 @@ Die Gleichspannung erreicht das Funkmodul über die beiden **Brücken**. Die Kon
 
 1. Schwarz ins Multimeter an `COM`, Rot an `V/Ω`. Den **200-Ω-Bereich** wählen. Direkt zusammengehaltene Spitzen zeigten beim verwendeten Gerät **`00.7` Ω**. Mit getrennten Spitzen zeigte es **`1`** für Messbereichsüberschreitung.
 2. An der Kondensatorplatine von einem Ende der roten Brücke zum anderen messen, danach Schwarz wiederholen. Erwartet wird ungefähr der Vergleichswert der zusammengehaltenen Spitzen. Zwischen Rot und Schwarz kann sich die Anzeige kurz verändern, während die Messspannung die Kondensatoren lädt. Ein dauerhaft fast so niedriger Widerstand wie bei kurzgeschlossenen Spitzen deutet auf eine Brücke zwischen den Reihen hin.
-3. Den losen CC2500 an **Pin 1 und Pin 6** prüfen. Beobachtet wurde `1 → kurz 60,1 → 1`. Kein dauerhaft niederohmiger Kurzschluss war erkennbar. Der frühere Test 1–2 lag zwischen Versorgung und SI und wurde deshalb mit richtigem Pinout wiederholt. Diese Widerstandsmessung prüft auf Kurzschluss. Die Belegung selbst stammt aus dem Händlerbild.
+3. Den losen CC2500 zwischen **Pin 1 und Pin 6** auf einen Kurzschluss prüfen. Kurze Schwankungen können beim Laden der Kondensatoren auftreten. Ein dauerhaft niedriger Wert nahe dem Vergleichswert der Messspitzen deutet auf einen Kurzschluss hin.
 
 ### Spannung und SPI
 
 1. Den **NodeMCU allein per USB** versorgen. Das Multimeter auf Gleichspannung `V⎓` stellen. Bei manueller Bereichswahl **20 V** wählen. Schwarz an `G` und Rot an `3V`. Gemessen wurden **+3,31 V**. USB wieder abziehen.
 2. Rot über die Kondensatorplatine vom NodeMCU-`3V` zu CC2500-Pin 1 verbinden, Schwarz vom NodeMCU-`G` zu Pin 6. Vor dem Einschalten zwischen den Reihen nochmals auf Kurzschluss prüfen.
-3. Nur mit der Versorgung verdrahtet einschalten. Am Funkmodul in `V⎓` messen, Schwarz an Pin 6 und Rot an Pin 1. Ziel sind rund **+3,3 V**. Der Betreiber bestätigte den Messwert am Funkmodul als passend. Der genaue Zahlenwert dieser Messung ist offen. Jede Messspitze muss nur ihren eigenen Stift berühren.
+3. Nur mit der Versorgung verdrahtet einschalten. Am Funkmodul in `V⎓` messen, Schwarz an Pin 6 und Rot an Pin 1. Ziel sind rund **+3,3 V**. Jede Messspitze muss nur ihren eigenen Stift berühren.
 4. USB erneut abziehen. Die vier direkten Signalwege **Pin 2 → D7**, **Pin 3 → D5**, **Pin 4 → D6** und **Pin 8 → D1** herstellen. Jeder Weg kann vom Metall am NodeMCU bis zum Stift am Funkmodul auf Durchgang geprüft werden.
-5. Unter Licht auf Zinnbrücken und überstehende Litzen prüfen. Dann USB verbinden und den [SPI-Lesetest](inbetriebnahme.md#5-spi-diagnose-und-der-fehler-d8-statt-d1) starten.
+5. Unter Licht auf Zinnbrücken und überstehende Litzen prüfen. Dann USB verbinden und den [SPI-Lesetest](inbetriebnahme.md#5-spi-diagnose) starten.
 
 ## 5. Enge Stifte löten und Leitungen entlasten
 
@@ -80,7 +80,7 @@ Am Funkmodul waren die Steckverbindungen fragil. Für einen festen Anschluss kö
 2. Einen einzelnen Draht längs an das freie Ende des Stifts halten. Stift und Draht kurz gemeinsam erwärmen, bis das Zinn beide benetzt. Den Kolben wegnehmen und das Kabel stillhalten. Pin 8 außen ist ein sinnvoller erster Anschluss zum Üben.
 3. Die Lötstelle seitlich im Licht ansehen. Zwischen Nachbarstiften soll ein Spalt sichtbar bleiben. Eine versehentliche Brücke mit Entlötlitze und kurzer Hitze aufnehmen. Nach jedem Draht die Verbindung und die Nachbarpins kontrollieren.
 4. Das Kabelbündel mit etwas Spiel an der Lochrasterplatine oder einem nichtleitenden Träger befestigen. Die Antenne frei halten. Kupferringe und Lötstellen gegen Kontakt mit Metall schützen. Wenn das Modul regelmäßig lösbar bleiben soll, passt eine achtpolige Buchsenleiste im **2,0-mm-Raster**.
-5. Nach dem Befestigen die Kurzschluss-, Spannungs- und SPI-Prüfung wiederholen. Die späteren Fotos zeigen eine provisorische Unterbringung aus transparentem Kunststoff. Eine dauerhafte Montage und vermessene Reichweite sind nicht protokolliert. Die Kondensatorplatine wurde gebaut und die Leuchte ließ sich nach der Inbetriebnahme in allen drei Stufen schalten.
+5. Nach dem Befestigen die Kurzschluss-, Spannungs- und SPI-Prüfung wiederholen. Die Fotos zeigen eine provisorische Unterbringung aus transparentem Kunststoff.
 
 ## Fotos des aufgebauten Adapters
 

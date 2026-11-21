@@ -1,0 +1,35 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# Lokal als utrusta-kueche.yaml speichern und secrets.yaml aus der Vorlage anlegen.
+esphome:
+  name: utrusta-kueche
+  friendly_name: utrusta-kueche
+
+esp8266:
+  # So wurde das Gerät tatsächlich kompiliert und per USB getestet.
+  board: esp01_1m
+
+logger:
+
+api:
+  encryption:
+    key: !secret utrusta_api_key
+
+ota:
+  - platform: esphome
+    password: !secret utrusta_ota_password
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+  ap:
+    ssid: "Utrusta Kueche Fallback"
+    password: !secret utrusta_fallback_password
+
+captive_portal:
+
+# Für den WLAN-Basistest diesen ganzen Block auskommentieren.
+# Für die SPI-Diagnose den Eintrag durch
+# cc2500_spi_test: !include cc2500-spi-test.yaml
+# ersetzen. Die beiden Pakete verwenden dieselben Pins.
+packages:
+  utrusta_radio: !include packages/utrusta-radio.yaml

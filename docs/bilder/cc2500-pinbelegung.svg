@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1010" height="500" viewBox="0 0 1010 500">
+<style>text{font-family:Arial,sans-serif;fill:#183340}.title{font-size:29px;font-weight:bold}.body{font-size:20px}.label{font-size:21px;font-weight:bold}.small{font-size:16px}</style>
+<rect width="1010" height="500" fill="#f5f8f9"/>
+<text x="36" y="54" class="title" >CC2500-Modul 002914 · Pinbelegung</text>
+<text x="36" y="86" class="body" >Bauteilseite sichtbar · Antenne oben · Stifte unten</text>
+<rect x="67" y="118" width="876" height="210" rx="8" fill="#d6e5dc" stroke="#315645" stroke-width="2"/>
+<rect x="87" y="136" width="836" height="48" rx="7" fill="#edde9e"/>
+<text x="505" y="168" class="body" text-anchor="middle">Leiterplattenantenne</text>
+<rect x="221" y="213" width="143" height="56" rx="5" fill="#2d4958"/>
+<text x="292" y="249" class="body" text-anchor="middle" style="fill:white">CC2500</text>
+<text x="467" y="249" class="small" >Vereinfachte Ansicht, nicht maßstäblich</text>
+<path d="M120 300v57" stroke="#a32b29" stroke-width="4"/><circle cx="120" cy="301" r="8" fill="#a32b29"/><text x="120" y="382" class="label" text-anchor="middle">1</text><text x="120" y="411" class="label" text-anchor="middle">VCC</text><text x="120" y="438" class="small" text-anchor="middle">3V (3,3 V)</text>
+<path d="M230 300v57" stroke="#245e86" stroke-width="4"/><circle cx="230" cy="301" r="8" fill="#245e86"/><text x="230" y="382" class="label" text-anchor="middle">2</text><text x="230" y="411" class="label" text-anchor="middle">SI</text><text x="230" y="438" class="small" text-anchor="middle">D7 / MOSI</text>
+<path d="M340 300v57" stroke="#245e86" stroke-width="4"/><circle cx="340" cy="301" r="8" fill="#245e86"/><text x="340" y="382" class="label" text-anchor="middle">3</text><text x="340" y="411" class="label" text-anchor="middle">SCLK</text><text x="340" y="438" class="small" text-anchor="middle">D5</text>
+<path d="M450 300v57" stroke="#245e86" stroke-width="4"/><circle cx="450" cy="301" r="8" fill="#245e86"/><text x="450" y="382" class="label" text-anchor="middle">4</text><text x="450" y="411" class="label" text-anchor="middle">SO</text><text x="450" y="438" class="small" text-anchor="middle">D6 / MISO</text>
+<path d="M560 300v57" stroke="#245e86" stroke-width="4"/><circle cx="560" cy="301" r="8" fill="#245e86"/><text x="560" y="382" class="label" text-anchor="middle">5</text><text x="560" y="411" class="label" text-anchor="middle">GDO2</text><text x="560" y="438" class="small" text-anchor="middle">frei</text>
+<path d="M670 300v57" stroke="#263747" stroke-width="4"/><circle cx="670" cy="301" r="8" fill="#263747"/><text x="670" y="382" class="label" text-anchor="middle">6</text><text x="670" y="411" class="label" text-anchor="middle">GND</text><text x="670" y="438" class="small" text-anchor="middle">G</text>
+<path d="M780 300v57" stroke="#245e86" stroke-width="4"/><circle cx="780" cy="301" r="8" fill="#245e86"/><text x="780" y="382" class="label" text-anchor="middle">7</text><text x="780" y="411" class="label" text-anchor="middle">GDO0</text><text x="780" y="438" class="small" text-anchor="middle">frei</text>
+<path d="M890 300v57" stroke="#245e86" stroke-width="4"/><circle cx="890" cy="301" r="8" fill="#245e86"/><text x="890" y="382" class="label" text-anchor="middle">8</text><text x="890" y="411" class="label" text-anchor="middle">CSn</text><text x="890" y="438" class="small" text-anchor="middle">D1</text>
+<text x="36" y="477" class="small" >Zeile unter dem Signal zeigt den Anschluss am NodeMCU. CC2500-Pin 8 geht an D1.</text>
+</svg>

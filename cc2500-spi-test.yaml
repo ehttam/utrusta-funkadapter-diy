@@ -1,0 +1,59 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# Read-only CC2500 SPI diagnostic for TinyTronics 002914.
+esphome:
+  on_boot:
+    priority: -100
+    then:
+      - delay: 1s
+      - lambda: |-
+          auto *radio = id(utrusta_cc2500_spi_test);
+          constexpr uint8_t miso_pin = 12;
+          ESP_LOGI("cc2500_test", "SO bei CSn=HIGH: %s", digitalRead(miso_pin) ? "HIGH" : "LOW");
+          const auto read_status = [radio, miso_pin](uint8_t address, uint8_t &status) -> uint8_t {
+            radio->enable();
+            const uint32_t selected_at = micros();
+            while (digitalRead(miso_pin)) {
+              if (micros() - selected_at >= 5000) {
+                ESP_LOGW("cc2500_test", "SO bleibt HIGH bei CSn=LOW (Register 0x%02X)", address);
+                status = 0xFF;
+                radio->disable();
+                return 0xFF;
+              }
+              delayMicroseconds(10);
+            }
+            status = radio->transfer_byte(address);
+            const uint8_t value = radio->read_byte();
+            radio->disable();
+            return value;
+          };
+
+          uint8_t part_status = 0;
+          uint8_t version_status = 0;
+          const uint8_t part = read_status(0xF0, part_status);
+          const uint8_t version = read_status(0xF1, version_status);
+          ESP_LOGI("cc2500_test", "PARTNUM=0x%02X VERSION=0x%02X", part, version);
+          if (((part_status | version_status) & 0x80) == 0 &&
+              part == 0x80 && version != 0x00 && version != 0xFF) {
+            ESP_LOGI("cc2500_test", "SPI-TEST OK: CC2500 antwortet");
+          } else {
+            ESP_LOGW("cc2500_test", "SPI-TEST fehlgeschlagen (Statusbytes: 0x%02X, 0x%02X)",
+                     part_status, version_status);
+          }
+
+spi:
+  id: utrusta_cc2500_spi_bus
+  clk_pin: GPIO14  # D5
+  mosi_pin: GPIO13 # D7
+  miso_pin:
+    number: GPIO12  # D6
+    mode:
+      input: true
+      pullup: true
+  interface: software
+
+spi_device:
+  id: utrusta_cc2500_spi_test
+  spi_id: utrusta_cc2500_spi_bus
+  cs_pin: GPIO5    # D1
+  spi_mode: MODE0
+  data_rate: 125kHz

@@ -1,0 +1,105 @@
+# SPDX-License-Identifier: GPL-3.0-only
+# UTRUSTA E1205 replacement, TinyTronics CC2500 002914.
+substitutions:
+  utrusta_sender_address: !secret utrusta_sender_address
+
+esphome:
+  includes:
+    - packages/utrusta_radio.h
+  on_boot:
+    priority: -100
+    then:
+      - delay: 1s
+      - lambda: |-
+          if (!utrusta::radio.setup(id(utrusta_spi_device))) {
+            ESP_LOGE("utrusta_radio", "CC2500-Initialisierung fehlgeschlagen");
+            return;
+          }
+          ESP_LOGI("utrusta_radio", "Senderkennung 0x%04X; warte auf Tastendruck",
+                   ${utrusta_sender_address});
+
+spi:
+  id: utrusta_spi_bus
+  clk_pin: GPIO14  # D5
+  mosi_pin: GPIO13  # D7
+  miso_pin:
+    number: GPIO12  # D6
+    mode:
+      input: true
+      pullup: true
+  interface: software
+
+spi_device:
+  id: utrusta_spi_device
+  spi_id: utrusta_spi_bus
+  cs_pin: GPIO5  # D1
+  spi_mode: MODE0
+  data_rate: 125kHz
+
+script:
+  - id: utrusta_send_command
+    mode: restart
+    parameters:
+      command: int
+    then:
+      - logger.log:
+          tag: utrusta_radio
+          format: "Sende IKEA-Befehl 0x%02X"
+          args: ['command']
+      - repeat:
+          count: 50
+          then:
+            - if:
+                condition:
+                  lambda: return utrusta::radio.send_frame(${utrusta_sender_address}, command);
+                then:
+                  - delay: 8ms
+                else:
+                  - logger.log:
+                      level: ERROR
+                      tag: utrusta_radio
+                      format: "CC2500 konnte das Telegramm nicht senden"
+                  - script.stop: utrusta_send_command
+            - if:
+                condition:
+                  lambda: return utrusta::radio.tx_complete();
+                else:
+                  - logger.log:
+                      level: ERROR
+                      tag: utrusta_radio
+                      format: "CC2500 hat das Senden des Telegramms nicht abgeschlossen"
+                  - script.stop: utrusta_send_command
+      - logger.log:
+          tag: utrusta_radio
+          format: "50 Telegramme gesendet; die Leuchte meldet keinen Empfang zurueck"
+
+button:
+  - platform: template
+    name: "Licht aus"
+    id: utrusta_light_off
+    on_press:
+      - script.execute:
+          id: utrusta_send_command
+          command: 0x01
+  - platform: template
+    name: "Licht mittel"
+    id: utrusta_light_medium
+    on_press:
+      - script.execute:
+          id: utrusta_send_command
+          command: 0x02
+  - platform: template
+    name: "Licht voll"
+    id: utrusta_light_full
+    on_press:
+      - script.execute:
+          id: utrusta_send_command
+          command: 0x03
+  - platform: template
+    name: "Anlernen"
+    id: utrusta_pair
+    entity_category: config
+    on_press:
+      - script.execute:
+          id: utrusta_send_command
+          command: 0xFF

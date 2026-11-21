@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="620" viewBox="0 0 960 620">
+<rect width="960" height="620" fill="white"/>
+<g font-family="Arial,sans-serif" fill="#15243a">
+<text x="40" y="48" font-size="28" font-weight="bold">UTRUSTA-Funkadapter</text>
+<text x="40" y="77" font-size="16">NodeMCU V3 und CC2500 · Versorgung über Micro-USB</text>
+<g fill="#f0f5fb" stroke="#233d5b" stroke-width="2"><rect x="40" y="112" width="235" height="370" rx="8"/><rect x="690" y="112" width="230" height="370" rx="8"/></g>
+<g font-size="21" font-weight="bold"><text x="60" y="145">NodeMCU V3</text><text x="710" y="145">CC2500 · 002914</text></g>
+<g font-size="17" text-anchor="end"><text x="260" y="191">3V</text><text x="260" y="263">D7 / GPIO13</text><text x="260" y="305">D5 / GPIO14</text><text x="260" y="347">D6 / GPIO12</text><text x="260" y="389">D1 / GPIO5</text><text x="260" y="439">G</text></g>
+<g font-size="17"><text x="705" y="191">1 · VCC (3,3 V)</text><text x="705" y="263">2 · SI / MOSI</text><text x="705" y="305">3 · SCLK</text><text x="705" y="347">4 · SO / MISO</text><text x="705" y="389">8 · CSn</text><text x="705" y="439">6 · GND</text><text x="705" y="466" font-size="14">5 · GDO2   /   7 · GDO0   (frei)</text></g>
+<g fill="none" stroke-width="2.5"><path stroke="#b32831" d="M275 185 H690 M310 185 V495 M340 185 V495"/><path stroke="#255c91" d="M275 257 H690 M275 299 H690 M275 341 H690 M275 383 H690"/><path stroke="#15243a" d="M275 433 H690 M380 433 V551 H310 M310 507 V551 M340 507 V551 M299 495 H321 M299 507 H321 M329 495 H351 M329 507 Q340 501 351 507"/></g>
+<g fill="#b32831"><circle cx="310" cy="185" r="4"/><circle cx="340" cy="185" r="4"/></g>
+<g fill="#15243a"><circle cx="380" cy="433" r="4"/><circle cx="340" cy="551" r="4"/></g>
+<g font-size="15"><text x="285" y="505" text-anchor="end">100 nF</text><text x="351" y="488">+</text><text x="395" y="505">10 µF (Elko)</text><text x="40" y="590">TinyTronics 002914: Bauteilseite sichtbar, Antenne oben, Pin 1 (VCC) unten links.</text></g>
+</g></svg>

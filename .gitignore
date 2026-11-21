@@ -1,0 +1,11 @@
+# Lokale ESPHome-Konfiguration, Zugangsdaten und Build-Ausgaben
+/utrusta-kueche.yaml
+secrets.yaml
+.esphome/
+.venv/
+.pio/
+*.bin
+
+# Lokale Editor-Dateien
+/nvim.log
+.DS_Store

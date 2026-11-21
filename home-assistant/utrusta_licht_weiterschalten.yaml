@@ -1,0 +1,53 @@
+# SPDX-License-Identifier: GPL-3.0-only
+alias: UTRUSTA Licht weiterschalten
+description: 'Sendet bei jedem Klick den nächsten Befehl: Aus, Mittel, Voll. Der Helfer
+  speichert, welcher Befehl als Nächstes gesendet wird.'
+icon: mdi:lightbulb-on-outline
+mode: queued
+max: 10
+sequence:
+- condition: not
+  conditions:
+  - condition: state
+    entity_id: button.utrusta_kueche_licht_aus
+    state: unavailable
+- choose:
+  - conditions:
+    - condition: select.is_option_selected
+      target:
+        entity_id: input_select.utrusta_nachster_lichtbefehl
+      options:
+        option: Aus
+    sequence:
+    - action: button.press
+      target:
+        entity_id: button.utrusta_kueche_licht_aus
+  - conditions:
+    - condition: select.is_option_selected
+      target:
+        entity_id: input_select.utrusta_nachster_lichtbefehl
+      options:
+        option: Mittel
+    sequence:
+    - action: button.press
+      target:
+        entity_id: button.utrusta_kueche_licht_mittel
+  - conditions:
+    - condition: select.is_option_selected
+      target:
+        entity_id: input_select.utrusta_nachster_lichtbefehl
+      options:
+        option: Voll
+    sequence:
+    - action: button.press
+      target:
+        entity_id: button.utrusta_kueche_licht_voll
+  default:
+  - stop: Der nächste UTRUSTA-Befehl ist nicht verfügbar.
+- action: input_select.select_next
+  target:
+    entity_id: input_select.utrusta_nachster_lichtbefehl
+  data:
+    cycle: true
+- delay:
+    milliseconds: 750
